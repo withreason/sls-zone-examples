@@ -1,0 +1,16 @@
+{
+  "name": "simple-crud-example",
+  "version": "1.0.0",
+  "description": "CRUD example using serverless, slspress and AWS",
+  "main": "handler.js",
+  "scripts": {
+    "sls:deploy": "sls deploy",
+    "sls:remove": "sls remove"
+  },
+  "author": "With Reason Ltd",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.245.1",
+    "slspress": "^2.2.3"
+  }
+}
