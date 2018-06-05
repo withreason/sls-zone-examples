@@ -1,11 +1,12 @@
 {
   "name": "s3-events",
   "version": "1.0.0",
-  "description": "",
+  "description": "S3 events handler",
   "main": "handler.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "sls:deploy": "sls deploy",
+    "sls:remove": "sls remove"
   },
-  "author": "",
-  "license": "ISC"
+  "author": "With Reason Ltd",
+  "license": "MIT"
 }
