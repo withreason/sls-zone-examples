@@ -1,0 +1,12 @@
+{
+  "name": "dynamodb-event-handler",
+  "version": "1.0.0",
+  "description": "DynamoDB event handler",
+  "main": "handler.js",
+  "scripts": {
+    "sls:deploy": "sls deploy",
+    "sls:remove": "sls remove"
+  },
+  "author": "With Reason Ltd",
+  "license": "MIT"
+}
