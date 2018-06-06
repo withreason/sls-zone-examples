@@ -1,0 +1,22 @@
+service: s3-event-handler
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+  profile: default
+  memorySize: 256 # optional, in MB, default is 1024
+  stage: dev
+  environment:
+    BUCKET_NAME:  ${self:service}-${opt:stage, self:provider.stage}-s3bucket
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - s3:*
+      Resource: "arn:aws:s3:::${self:provider.environment.BUCKET_NAME}*"
+
+functions:
+  fileAdded:
+    handler: handler.fileAdded
+    events:
+      - s3: ${self:provider.environment.BUCKET_NAME}
