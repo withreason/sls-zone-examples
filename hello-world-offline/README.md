@@ -15,8 +15,8 @@ Example using serverless and AWS.
 
 ## Commands
 
-- Deploy to AWS `npm run sls:deploy`
-- Remove from AWS `npm run sls:remove`
+- Run locally `npm run sls:offline:start`
+- Run locally + debug data `npm run sls:offline:debug`
 
 ## Uninstall
 
