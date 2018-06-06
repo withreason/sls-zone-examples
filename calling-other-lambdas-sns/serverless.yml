@@ -1,0 +1,53 @@
+service: calling-other-lambdas-sns
+
+custom:
+  multiplyNumberDispatchTopic: 
+    Fn::Join:
+      - ""
+      - - "arn:aws:sns:"
+        - Ref: "AWS::Region"
+        - ":"
+        - Ref: "AWS::AccountId"
+        - ":multiply-number-dispatch"
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+  profile: default
+  memorySize: 256
+  stage: dev
+  environment:
+    SERVERLESS_SERVICE_NAME: ${self:service}
+    SERVERLESS_SERVICE_STAGE: ${opt:stage, self:provider.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - sns:Publish
+        - sns:CreateTopic
+      Resource: "${self:custom.multiplyNumberDispatchTopic}"
+
+package:
+  individually: true
+
+functions:
+
+  post-to-sns:
+    handler: handler.handle
+    name: "${self:service}-${self:provider.stage}-post-to-sns"
+    description: "slspress calling other lambdas using sns example"
+    environment:
+      MULTIPLY_NUMBER_SNS_TOPIC: "${self:custom.multiplyNumberDispatchTopic}"
+    events:
+      - http:
+          path: post-to-sns
+          method: get
+          cors: true
+
+  multiply-number-sns:
+    handler: handler.multiplyNumberSNS
+    description: "slspress calling other lambdas using sns example"
+    events:
+      - sns: 
+          topicName: multiply-number-dispatch
+          displayName: Multiply Number Dispatch

@@ -1,0 +1,15 @@
+{
+  "name": "calling-other-lambdas",
+  "version": "1.0.0",
+  "description": "Example using serverless, slspress and AWS.",
+  "main": "handler.js",
+  "scripts": {
+    "deploy": "sls deploy"
+  },
+  "author": "With Reason Ltd",
+  "license": "MIT",
+  "dependencies": {
+    "aws-sdk": "^2.245.1",
+    "slspress": "^2.2.3"
+  }
+}
