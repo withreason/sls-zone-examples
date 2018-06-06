@@ -1,0 +1,23 @@
+service: testing
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+  profile: default
+  memorySize: 256 # optional, in MB, default is 1024
+  stage: dev
+
+plugins:
+  - serverless-offline
+  - serverless-mocha-plugin
+
+functions:
+  multiplyNumbersForTest:
+    handler: handler.multiplyNumbersForTest
+    events:
+      - http:
+          integration: lambda
+          path: multiply-number-for-test
+          method: get
+          cors: true

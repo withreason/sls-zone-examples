@@ -1,0 +1,18 @@
+{
+  "name": "testing",
+  "version": "1.0.0",
+  "description": "Testing example",
+  "main": "logic.js",
+  "scripts": {
+    "test":"sls invoke test"
+  },
+  "author": "With Reason Ltd",
+  "license": "MIT",
+  "dependencies": {
+    "slspress": "^2.2.3"
+  },
+  "devDependencies": {
+    "serverless-mocha-plugin": "^1.8.3",
+    "serverless-offline": "^3.25.3"
+  }
+}
