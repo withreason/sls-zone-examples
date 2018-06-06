@@ -1,0 +1,39 @@
+service: calling-other-lambdas
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+  profile: default
+  memorySize: 256
+  stage: dev
+  environment:
+    SERVERLESS_SERVICE_NAME: ${self:service}
+    SERVERLESS_SERVICE_STAGE: ${opt:stage, self:provider.stage}
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - lambda:InvokeFunction
+      Resource: "arn:aws:lambda:${opt:region, self:provider.region}:*:function:${self:service}-${opt:stage, self:provider.stage}-multiply-number"
+
+package:
+  individually: true
+
+functions:
+  calling-other-lambdas:
+      handler: handler.handle
+      name: "${self:service}-${self:provider.stage}-calling-other-lambdas"
+      events:
+        - http:
+            path: calling-other-lambdas
+            method: get
+            cors: true
+
+  multiply-number:
+      handler: handler.handle
+      name: "${self:service}-${self:provider.stage}-multiply-number"
+      events:
+        - http:
+            path: multiply-number
+            method: post
+            cors: true
