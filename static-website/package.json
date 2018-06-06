@@ -1,0 +1,14 @@
+{
+  "name": "static-website",
+  "version": "1.0.0",
+  "description": "Static website",
+  "scripts": {
+    "sls:deploy": "sls client deploy -v",
+    "sls:remove": "sls client remove"
+  },
+  "author": "With Reason Ltd",
+  "license": "MIT",
+  "dependencies": {
+    "serverless-finch": "^2.1.2"
+  }
+}
