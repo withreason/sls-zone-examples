@@ -1,0 +1,23 @@
+service: hello-world-offline
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+  profile: default
+  memorySize: 256 # optional, in MB, default is 1024
+  stage: dev
+
+plugins:
+  - serverless-offline
+
+functions:
+  hello-world:
+    handler: handler.handle # required, handler set in AWS Lambda
+    name: "${self:service}-${self:provider.stage}" # optional, Deployed Lambda name
+    description: "slspress offline example"
+    events:
+      - http:
+          path: hello-world
+          method: get
+          cors: true

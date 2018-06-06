@@ -1,0 +1,18 @@
+{
+  "name": "hello-world-offline",
+  "version": "1.0.0",
+  "description": "Offline sample",
+  "scripts": {
+    "sls:offline:start": "sls offline start",
+    "sls:offline:debug": "SLS_DEBUG=* sls offline start"
+  },
+  "author": "With Reason Ltd",
+  "license": "MIT",
+  "dependencies": {
+    "slspress": "^2.2.3"
+  },
+  "devDependencies": {
+    "serverless": "^1.27.3",
+    "serverless-offline": "^3.25.3"
+  }
+}
