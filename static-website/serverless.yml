@@ -1,0 +1,45 @@
+service: static-website
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+  profile: default
+  memorySize: 256 # optional, in MB, default is 1024
+  stage: dev
+
+plugins:
+  - serverless-finch
+
+custom:
+  siteName: static-website.com
+  client:
+    bucketName: ${self:service}-${opt:stage, self:provider.stage}-${self:custom.siteName}
+    # distributionFolder: client/dist
+
+resources:
+  Resources:
+  
+    StaticSite:
+      Type: AWS::S3::Bucket
+      Properties:
+        AccessControl: PublicRead
+        BucketName: ${self:custom.client.bucketName}
+        WebsiteConfiguration:
+          IndexDocument: index.html
+          ErrorDocument: error.html
+
+    # specifying the policies to make sure all files inside the Bucket are avaialble
+    WebAppS3BucketPolicy:
+      Type: AWS::S3::BucketPolicy
+      Properties:
+        Bucket:
+          Ref: StaticSite
+        PolicyDocument:
+          Statement:
+            - Sid: PublicReadGetObject
+              Effect: Allow
+              Principal: "*"
+              Action:
+              - s3:GetObject
+              Resource: arn:aws:s3:::${self:custom.client.bucketName}/*
