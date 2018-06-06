@@ -1,0 +1,66 @@
+service: simple-crud-example
+
+provider:
+  name: aws
+  runtime: nodejs8.10
+  region: eu-west-1
+  profile: default
+  memorySize: 256 # optional, in MB, default is 1024
+  stage: dev
+  environment:
+      DYNAMODB_TABLE:  ${self:service}-${opt:stage, self:provider.stage}-slspress-test-items
+  iamRoleStatements:
+    - Effect: Allow
+      Action:
+        - dynamodb:Query
+        - dynamodb:Scan
+        - dynamodb:GetItem
+        - dynamodb:PutItem
+        - dynamodb:UpdateItem
+        - dynamodb:DeleteItem
+      Resource: "arn:aws:dynamodb:${opt:region, self:provider.region}:*:table/${self:provider.environment.DYNAMODB_TABLE}"
+
+package:
+  individually: true
+
+functions:
+  itemApi:
+      handler: handler.handle # required, handler set in AWS Lambda
+      name: "${self:service}-${self:provider.stage}" # optional, Deployed Lambda name
+      description: "slspress CRUD example"
+      events:
+        - http:
+            path: items
+            method: post
+            cors: true
+        - http:
+            path: items/{id}
+            method: put
+            cors: true
+        - http:
+            path: items/{id}
+            method: get
+            cors: true
+        - http:
+            path: items/{id}
+            method: delete
+            cors: true
+
+resources:
+  Resources:
+    ItemsTable:
+      Type: 'AWS::DynamoDB::Table'
+      DeletionPolicy: Retain
+      Properties:
+        AttributeDefinitions:
+          -
+            AttributeName: id
+            AttributeType: S
+        KeySchema:
+          -
+            AttributeName: id
+            KeyType: HASH
+        ProvisionedThroughput:
+          ReadCapacityUnits: 1
+          WriteCapacityUnits: 1
+        TableName: ${self:provider.environment.DYNAMODB_TABLE}
